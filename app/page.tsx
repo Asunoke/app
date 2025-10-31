@@ -121,7 +121,7 @@ export default function AboutPage() {
               <Link href="/register">
                 <Button 
                   variant="secondary" 
-                  className="bg-white text-[#FF7A00] hover:bg-gray-100 px-10 py-7 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                  className="bg-white text-black hover:bg-gray-100 px-10 py-7 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                 >
                   <Rocket className="inline-block mr-3 h-6 w-6" />
                   Commencer Maintenant
@@ -362,7 +362,7 @@ export default function AboutPage() {
             Rejoignez des milliers d&apos;utilisateurs qui font confiance à JigiFuel
           </p>
           <Link href="/register">
-            <Button className="bg-white text-[#FF7A00] hover:bg-gray-100 px-10 sm:px-14 py-7 sm:py-9 text-xl sm:text-2xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
+            <Button className="bg-white text-black hover:bg-gray-100 px-10 sm:px-14 py-7 sm:py-9 text-xl sm:text-2xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
               <Rocket className="inline-block mr-3 h-7 w-7" />
               Créer mon compte gratuitement
             </Button>
