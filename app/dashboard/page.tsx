@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import toast from 'react-hot-toast';
+import type { User as PrismaUser } from '@prisma/client';
 
 interface User {
   id: string;
@@ -51,8 +52,8 @@ export default function DashboardPage() {
       return;
     }
 
-    // Type assertion to access role - will be fixed with proper Better Auth types
-    const userRole = (session?.user as any)?.role;
+    // Type assertion to access role
+    const userRole = (session?.user as PrismaUser)?.role;
     if (session && userRole !== 'ADMIN' && userRole !== 'MANAGER') {
       router.push('/');
       toast.error('Accès non autorisé');
@@ -61,7 +62,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (session) {
-      const userRole = (session.user as any)?.role;
+      const userRole = (session.user as PrismaUser)?.role;
       if (userRole === 'ADMIN') {
         fetchStations();
         fetchUsers();
@@ -278,7 +279,7 @@ export default function DashboardPage() {
     return null;
   }
 
-  const userRole = (session.user as any)?.role;
+  const userRole = (session.user as PrismaUser)?.role;
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] py-8">
@@ -676,7 +677,7 @@ export default function DashboardPage() {
               <Card>
                 <CardContent className="py-12 text-center">
                   <p className="text-[#6B7280]">
-                    Aucune station n'est assignée à votre compte.
+                    Aucune station n&apos;est assignée à votre compte.
                   </p>
                   <p className="text-sm text-[#9CA3AF] mt-2">
                     Contactez un administrateur pour vous assigner une station.

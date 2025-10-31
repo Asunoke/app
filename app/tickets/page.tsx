@@ -128,7 +128,7 @@ export default function TicketsPage() {
         {tickets.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <p className="text-[#6B7280] mb-4">Vous n'avez aucun ticket</p>
+              <p className="text-[#6B7280] mb-4">Vous n&apos;avez aucun ticket</p>
               <Button onClick={() => router.push('/')} variant="primary">
                 Réserver un ticket
               </Button>

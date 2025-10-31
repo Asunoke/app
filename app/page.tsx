@@ -239,7 +239,7 @@ export default function AboutPage() {
                 Réservez votre ticket
               </h3>
               <p className="text-sm sm:text-base text-[#6B7280]">
-                Cliquez sur "Réserver un ticket" et obtenez votre code de réservation instantanément
+                Cliquez sur &quot;Réserver un ticket&quot; et obtenez votre code de réservation instantanément
               </p>
             </div>
 
@@ -304,7 +304,7 @@ export default function AboutPage() {
                 </p>
                 <p className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 leading-relaxed">
                   JigiFuel est notre première application dédiée à la gestion intelligente du 
-                  carburant à Bamako. Nous continuons d'innover pour apporter des solutions 
+                  carburant à Bamako. Nous continuons d&apos;innover pour apporter des solutions 
                   pratiques aux défis du quotidien.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -334,7 +334,7 @@ export default function AboutPage() {
                     <h4 className="text-lg sm:text-xl font-bold">Notre Mission</h4>
                   </div>
                   <p className="text-sm sm:text-base text-gray-300">
-                    Simplifier la vie quotidienne par l'innovation technologique
+                    Simplifier la vie quotidienne par l&apos;innovation technologique
                   </p>
                 </div>
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10">
@@ -359,7 +359,7 @@ export default function AboutPage() {
             Prêt à commencer ?
           </h2>
           <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 sm:mb-12">
-            Rejoignez des milliers d'utilisateurs qui font confiance à JigiFuel
+            Rejoignez des milliers d&apos;utilisateurs qui font confiance à JigiFuel
           </p>
           <Link href="/register">
             <Button className="bg-white text-[#FF7A00] hover:bg-gray-100 px-8 sm:px-12 py-6 sm:py-8 text-lg sm:text-xl font-bold rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">

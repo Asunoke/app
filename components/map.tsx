@@ -1,15 +1,13 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 import L from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Button } from './ui/button';
 import 'leaflet/dist/leaflet.css';
-import toast from 'react-hot-toast';
 
 // Fix for default marker icons in Leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',

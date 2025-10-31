@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from '@/lib/auth-client';
 import { Button } from './ui/button';
 import { Menu, X } from 'lucide-react';
+import type { User } from '@prisma/client';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -56,7 +57,7 @@ export default function Navbar() {
                   >
                     Mes Tickets
                   </Link>
-                  {((session.user as any).role === 'ADMIN' || (session.user as any).role === 'MANAGER') && (
+                  {((session.user as User).role === 'ADMIN' || (session.user as User).role === 'MANAGER') && (
                     <Link
                       href="/dashboard"
                       className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -156,7 +157,7 @@ export default function Navbar() {
                   >
                     Mes Tickets
                   </Link>
-                  {((session.user as any).role === 'ADMIN' || (session.user as any).role === 'MANAGER') && (
+                  {((session.user as User).role === 'ADMIN' || (session.user as User).role === 'MANAGER') && (
                     <Link
                       href="/dashboard"
                       className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${

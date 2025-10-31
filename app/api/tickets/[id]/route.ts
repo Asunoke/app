@@ -5,7 +5,7 @@ import { headers } from 'next/headers';
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth.api.getSession({
@@ -16,8 +16,10 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+
     const ticket = await prisma.ticket.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!ticket) {
@@ -29,7 +31,7 @@ export async function DELETE(
     }
 
     await prisma.ticket.update({
-      where: { id: params.id },
+      where: { id },
       data: { status: 'cancelled' },
     });
 

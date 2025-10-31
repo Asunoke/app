@@ -12,7 +12,6 @@ export interface Coordinates {
 const CODE_ALPHABET = '23456789CFGHJMPQRVWX';
 const PAIR_CODE_LENGTH = 10;
 const SEPARATOR = '+';
-const SEPARATOR_POSITION = 8;
 const LATITUDE_MAX = 90;
 const LONGITUDE_MAX = 180;
 const GRID_SIZE_DEGREES = 20;
@@ -24,7 +23,7 @@ const GRID_SIZE_DEGREES = 20;
 export function decodePlusCode(plusCode: string): Coordinates | null {
   try {
     // Nettoyer le Plus Code (enlever la ville/pays et espaces)
-    let cleanCode = plusCode.split(',')[0].trim().toUpperCase().replace(/\s/g, '');
+    const cleanCode = plusCode.split(',')[0].trim().toUpperCase().replace(/\s/g, '');
     
     // Vérifier la présence du séparateur
     if (!cleanCode.includes(SEPARATOR)) {
@@ -37,7 +36,7 @@ export function decodePlusCode(plusCode: string): Coordinates | null {
       return null;
     }
 
-    const [prefix, suffix] = parts;
+    const [prefix] = parts;
     
     // Pour un Plus Code court (comme M4G6+7QJ), on a besoin d'une référence
     // On utilise Bamako comme référence par défaut

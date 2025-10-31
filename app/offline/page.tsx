@@ -33,7 +33,7 @@ export default function OfflinePage() {
             variant="outline"
             className="w-full"
           >
-            🏠 Retour à l'accueil
+            🏠 Retour à l&apos;accueil
           </Button>
         </div>
 
