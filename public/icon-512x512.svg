@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond orange -->
+  <rect width="512" height="512" fill="#FF7A00" rx="76.8"/>
+  
+  <!-- Cercle intérieur -->
+  <circle cx="256" cy="256" r="179.2" fill="#FFB800" opacity="0.3"/>
+  
+  <!-- Lettre J stylisée -->
+  <text 
+    x="256" 
+    y="332.8" 
+    font-family="Arial, sans-serif" 
+    font-size="256" 
+    font-weight="bold" 
+    fill="white" 
+    text-anchor="middle"
+  >J</text>
+  
+  <!-- Petit texte F -->
+  <text 
+    x="358.4" 
+    y="179.2" 
+    font-family="Arial, sans-serif" 
+    font-size="102.4" 
+    font-weight="bold" 
+    fill="white" 
+    text-anchor="middle"
+  >F</text>
+</svg>
