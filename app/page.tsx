@@ -121,18 +121,17 @@ export default function AboutPage() {
               <Link href="/register">
                 <Button 
                   variant="secondary" 
-                  className="bg-white text-black hover:bg-gray-100 px-10 py-7 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                  className="bg-[#D4AF37] hover:bg-[#C1440E] text-[#0D1B2A] transition-all duration-300 hover:scale-102 shadow-lg hover:shadow-xl"
                 >
-                  <Rocket className="inline-block mr-3 h-6 w-6" />
+                  <Rocket className="ml-2 h-4 w-4" />
                   Commencer Maintenant
                 </Button>
               </Link>
               <Link href="/dashboard/v1">
                 <Button 
                   variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-[#FF7A00] px-10 py-7 text-xl font-bold rounded-2xl transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                  className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0D1B2A] transition-all duration-300"
                 >
-                  <Fuel className="inline-block mr-3 h-6 w-6" />
                   Voir les Stations
                 </Button>
               </Link>
@@ -362,7 +361,7 @@ export default function AboutPage() {
             Rejoignez des milliers d&apos;utilisateurs qui font confiance à JigiFuel
           </p>
           <Link href="/register">
-            <Button className="bg-white text-black hover:bg-gray-100 px-10 sm:px-14 py-7 sm:py-9 text-xl sm:text-2xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
+            <Button className="bg-[#D4AF37] hover:bg-[#C1440E] text-[#0D1B2A] transition-all duration-300 hover:scale-102 shadow-lg hover:shadow-xl">
               <Rocket className="inline-block mr-3 h-7 w-7" />
               Créer mon compte gratuitement
             </Button>
