@@ -12,16 +12,8 @@ export async function GET() {
     // Compter les tickets
     const ticketsCount = await prisma.ticket.count();
 
-    // Calculer le taux de satisfaction (tickets validés / total tickets)
-    const validatedTickets = await prisma.ticket.count({
-      where: {
-        status: 'validated'
-      }
-    });
-
-    const satisfactionRate = ticketsCount > 0 
-      ? Math.round((validatedTickets / ticketsCount) * 100) 
-      : 99;
+    // Taux de satisfaction fixé à 99%
+    const satisfactionRate = 99;
 
     return NextResponse.json({
       users: usersCount,
