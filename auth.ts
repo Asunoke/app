@@ -2,6 +2,19 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
 
+// Détection automatique de l'URL de base pour la production
+const getBaseURL = () => {
+    // En production, utiliser VERCEL_URL ou BETTER_AUTH_URL
+    if (process.env.VERCEL_URL) {
+        return `https://${process.env.VERCEL_URL}`;
+    }
+    if (process.env.BETTER_AUTH_URL) {
+        return process.env.BETTER_AUTH_URL;
+    }
+    // En développement local
+    return "http://localhost:3000";
+};
+
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql",
@@ -19,5 +32,5 @@ export const auth = betterAuth({
         },
     },
     secret: process.env.BETTER_AUTH_SECRET || "your-secret-key-change-in-production",
-    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+    baseURL: getBaseURL(),
 });
