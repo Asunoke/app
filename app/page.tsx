@@ -392,9 +392,9 @@ export default function AboutPage() {
             <div>
               <h4 className="text-base sm:text-lg font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-sm sm:text-base">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Aide</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                <li><Link href="/register" className="text-gray-400 hover:text-white transition-colors">Créer un compte</Link></li>
+                <li><Link href="/login" className="text-gray-400 hover:text-white transition-colors">Se connecter</Link></li>
+                <li><a href="mailto:contact@florynxlabs.com" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
             <div>
