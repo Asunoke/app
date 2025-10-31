@@ -123,18 +123,11 @@ export default function AboutPage() {
                   variant="secondary" 
                   className="bg-[#D4AF37] hover:bg-[#C1440E] text-[#0D1B2A] transition-all duration-300 hover:scale-102 shadow-lg hover:shadow-xl"
                 >
-                  <Rocket className="ml-2 h-4 w-4" />
+                  <Rocket className="inline-block ml-2 h-4 w-4" />
                   Commencer Maintenant
                 </Button>
               </Link>
-              <Link href="/dashboard/v1">
-                <Button 
-                  variant="outline" 
-                  className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0D1B2A] transition-all duration-300"
-                >
-                  Voir les Stations
-                </Button>
-              </Link>
+              
             </div>
           </div>
         </div>
