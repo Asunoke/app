@@ -1,0 +1,22 @@
+# robots.txt pour JigiFuel
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /tickets/
+
+# Sitemap
+Sitemap: https://jigifuel.com/sitemap.xml
+
+# Crawl-delay pour les bots
+Crawl-delay: 1
+
+# Bots spécifiques
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

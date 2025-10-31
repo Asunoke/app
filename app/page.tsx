@@ -121,18 +121,18 @@ export default function AboutPage() {
               <Link href="/register">
                 <Button 
                   variant="secondary" 
-                  className="bg-white text-[#FF7A00] hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl w-full sm:w-auto"
+                  className="bg-white text-[#FF7A00] hover:bg-gray-100 px-10 py-7 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                 >
-                  <Rocket className="inline-block mr-2 h-5 w-5" />
+                  <Rocket className="inline-block mr-3 h-6 w-6" />
                   Commencer Maintenant
                 </Button>
               </Link>
               <Link href="/dashboard/v1">
                 <Button 
                   variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-[#FF7A00] px-8 py-6 text-lg font-semibold rounded-xl w-full sm:w-auto"
+                  className="border-2 border-white text-white hover:bg-white hover:text-[#FF7A00] px-10 py-7 text-xl font-bold rounded-2xl transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                 >
-                  <Fuel className="inline-block mr-2 h-5 w-5" />
+                  <Fuel className="inline-block mr-3 h-6 w-6" />
                   Voir les Stations
                 </Button>
               </Link>
@@ -308,11 +308,11 @@ export default function AboutPage() {
                   pratiques aux défis du quotidien.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button className="bg-[#FF7A00] hover:bg-[#E66D00] text-white px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg rounded-xl w-full sm:w-auto">
+                  <Button className="bg-[#FF7A00] hover:bg-[#E66D00] text-white px-8 sm:px-10 py-5 sm:py-7 text-lg sm:text-xl font-semibold rounded-xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
                     <Mail className="inline-block mr-2 h-5 w-5" />
                     Nous Contacter
                   </Button>
-                  <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg rounded-xl w-full sm:w-auto">
+                  <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 sm:px-10 py-5 sm:py-7 text-lg sm:text-xl font-semibold rounded-xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
                     <Globe className="inline-block mr-2 h-5 w-5" />
                     En Savoir Plus
                   </Button>
@@ -362,8 +362,8 @@ export default function AboutPage() {
             Rejoignez des milliers d&apos;utilisateurs qui font confiance à JigiFuel
           </p>
           <Link href="/register">
-            <Button className="bg-white text-[#FF7A00] hover:bg-gray-100 px-8 sm:px-12 py-6 sm:py-8 text-lg sm:text-xl font-bold rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
-              <Rocket className="inline-block mr-2 h-6 w-6" />
+            <Button className="bg-white text-[#FF7A00] hover:bg-gray-100 px-10 sm:px-14 py-7 sm:py-9 text-xl sm:text-2xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 w-full sm:w-auto">
+              <Rocket className="inline-block mr-3 h-7 w-7" />
               Créer mon compte gratuitement
             </Button>
           </Link>

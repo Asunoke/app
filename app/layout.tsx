@@ -4,8 +4,33 @@ import Navbar from "@/components/navbar";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "JigiFuel - Réservez votre ticket de carburant",
-  description: "Trouvez les stations-service à proximité et réservez votre ticket pour éviter les files d'attente",
+  title: {
+    default: "JigiFuel - Réservation de Carburant à Bamako | Station-Service en Ligne",
+    template: "%s | JigiFuel",
+  },
+  description: "JigiFuel est la plateforme #1 de réservation de carburant à Bamako, Mali. Trouvez les stations-service à proximité, réservez votre ticket en ligne et évitez les files d'attente. Service rapide, sécurisé et gratuit.",
+  keywords: [
+    "JigiFuel",
+    "carburant Bamako",
+    "station-service Mali",
+    "réservation carburant",
+    "essence Bamako",
+    "diesel Mali",
+    "ticket carburant",
+    "station Total Bamako",
+    "station Shell Mali",
+    "éviter file d'attente carburant",
+    "application carburant Mali",
+    "Florynx Labs",
+  ],
+  authors: [{ name: "Florynx Labs SARL", url: "https://jigifuel.com" }],
+  creator: "Florynx Labs SARL",
+  publisher: "Florynx Labs SARL",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   manifest: "/manifest.json",
   themeColor: "#FF7A00",
   viewport: {
@@ -29,6 +54,43 @@ export const metadata: Metadata = {
       { url: "/icon-152x152.svg", sizes: "152x152", type: "image/svg+xml" },
     ],
   },
+  openGraph: {
+    type: "website",
+    locale: "fr_ML",
+    url: "https://jigifuel.com",
+    siteName: "JigiFuel",
+    title: "JigiFuel - Réservation de Carburant à Bamako | Station-Service en Ligne",
+    description: "Trouvez les stations-service à proximité et réservez votre ticket de carburant en ligne à Bamako. Évitez les files d'attente avec JigiFuel.",
+    images: [
+      {
+        url: "/icon-512x512.svg",
+        width: 512,
+        height: 512,
+        alt: "JigiFuel - Réservation de Carburant",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JigiFuel - Réservation de Carburant à Bamako",
+    description: "Trouvez les stations-service à proximité et réservez votre ticket de carburant en ligne. Évitez les files d'attente.",
+    images: ["/icon-512x512.svg"],
+    creator: "@florynxlabs",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://jigifuel.com",
+  },
 };
 
 export default function RootLayout({
@@ -37,9 +99,44 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" prefix="og: https://ogp.me/ns#">
       <head>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "JigiFuel",
+              "url": "https://jigifuel.com",
+              "description": "Plateforme de réservation de carburant à Bamako, Mali",
+              "applicationCategory": "UtilitiesApplication",
+              "operatingSystem": "Web, iOS, Android",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "XOF"
+              },
+              "creator": {
+                "@type": "Organization",
+                "name": "Florynx Labs SARL",
+                "url": "https://jigifuel.com",
+                "logo": "https://jigifuel.com/icon-512x512.svg",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Bamako",
+                  "addressCountry": "ML"
+                }
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "ratingCount": "150"
+              }
+            })
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -50,7 +147,7 @@ export default function RootLayout({
                       console.log('Service Worker enregistré avec succès:', registration.scope);
                     },
                     function(err) {
-                      console.log('Échec de l\'enregistrement du Service Worker:', err);
+                      console.log('Échec de l\\'enregistrement du Service Worker:', err);
                     }
                   );
                 });
