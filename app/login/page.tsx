@@ -20,13 +20,28 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await signIn.email({
+      const result = await signIn.email({
         email,
         password,
       });
+
+      console.log('SignIn result:', result);
+
+      // Vérifier si la connexion a réussi
+      if (result.error) {
+        toast.error(result.error.message || 'Email ou mot de passe incorrect');
+        console.error('Login error:', result.error);
+        return;
+      }
+
+      if (!result.data) {
+        toast.error('Erreur lors de la connexion');
+        console.error('No data returned from signIn');
+        return;
+      }
       
       toast.success('Connexion réussie!');
-      router.push('/');
+      router.push('/dashboard');
     } catch (error) {
       toast.error('Email ou mot de passe incorrect');
       console.error('Login error:', error);

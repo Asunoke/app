@@ -33,14 +33,29 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      await signUp.email({
+      const result = await signUp.email({
         email,
         password,
         name,
       });
 
+      console.log('SignUp result:', result);
+
+      // Vérifier si l'inscription a réussi
+      if (result.error) {
+        toast.error(result.error.message || 'Erreur lors de la création du compte');
+        console.error('Register error:', result.error);
+        return;
+      }
+
+      if (!result.data) {
+        toast.error('Erreur lors de la création du compte');
+        console.error('No data returned from signUp');
+        return;
+      }
+
       toast.success('Compte créé avec succès!');
-      router.push('/');
+      router.push('/dashboard');
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Une erreur est survenue';
       toast.error(errorMessage);
