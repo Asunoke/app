@@ -55,7 +55,7 @@ export default function RegisterPage() {
       }
 
       toast.success('Compte créé avec succès!');
-      router.push('/dashboard');
+      router.push('/dashboard/v1');
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Une erreur est survenue';
       toast.error(errorMessage);
