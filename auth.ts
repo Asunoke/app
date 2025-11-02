@@ -22,6 +22,12 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
     },
+    // Ajoutez cette configuration
+    trustedOrigins: [
+        'http://localhost:3000',
+        'https://jigifuel.vercel.app',
+        // Vous pouvez ajouter d'autres domaines si nécessaire
+    ],
     user: {
         additionalFields: {
             role: {
