@@ -30,7 +30,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gray-50 pb-20">
-      <div className="bg-gradient-to-b from-blue-600 to-blue-500 text-white px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+      <div className="bg-[#FF7A00] text-white px-4 sm:px-6 lg:px-8 pt-8 pb-16">
         <h1 className="text-2xl font-bold">Mon Profil</h1>
         <div className="mt-4 bg-white/10 rounded-xl p-4">
           <div className="flex items-center justify-between">
@@ -66,9 +66,9 @@ export default function ProfilePage() {
             <div className="divide-y divide-gray-200">
               {user.role === 'ADMIN' && (
                 <>
-                  <div 
+                  <div
                     className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push('/dashboard/admin')}
+                    onClick={() => router.push('/dashboard')}
                   >
                     <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
                       <Shield size={18} />
@@ -79,9 +79,9 @@ export default function ProfilePage() {
                     </div>
                     <div className="text-gray-400">›</div>
                   </div>
-                  <div 
+                  <div
                     className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push('/dashboard/users')}
+                    onClick={() => router.push('/dashboard/user')}
                   >
                     <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
                       <Users size={18} />
@@ -92,12 +92,25 @@ export default function ProfilePage() {
                     </div>
                     <div className="text-gray-400">›</div>
                   </div>
+                  <div
+                    className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push('/dashboard/payments')}
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
+                      <Settings size={18} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-gray-900">Paiements</div>
+                      <div className="text-xs text-gray-500">Suivre les paiements des tickets</div>
+                    </div>
+                    <div className="text-gray-400">›</div>
+                  </div>
                 </>
               )}
               {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
-                <div 
+                <div
                   className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
-                  onClick={() => router.push(user.role === 'ADMIN' ? '/dashboard/stations' : '/dashboard')}
+                  onClick={() => router.push(user.role === 'ADMIN' ? '/dashboard/stations' : '/dashboard/tickets')}
                 >
                   <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
                     {user.role === 'ADMIN' ? <Settings size={18} /> : <Ticket size={18} />}

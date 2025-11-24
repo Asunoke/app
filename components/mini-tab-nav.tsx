@@ -16,7 +16,7 @@ export default function MiniTabNav() {
     path: string,
   ) => (
     <button
-      className={`flex flex-col items-center gap-0.5 md:px-2 ${isActive(path) ? 'text-blue-600' : 'hover:text-blue-600'}`}
+      className={`flex flex-col items-center gap-0.5 md:px-2 ${isActive(path) ? 'text-[#FF7A00]' : 'hover:text-[#FF7A00]'}`}
       onClick={() => router.push(path)}
       aria-label={label}
       aria-current={isActive(path) ? 'page' : undefined}

@@ -100,7 +100,7 @@ export default function StationsPage() {
       case 'essence':
         return 'bg-yellow-100 text-yellow-600';
       case 'diesel':
-        return 'bg-blue-100 text-blue-600';
+        return 'bg-orange-100 text-orange-600';
       case 'super':
         return 'bg-purple-200 text-purple-700';
       default:
@@ -111,16 +111,16 @@ export default function StationsPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header bleu */}
-      <header className="bg-blue-600 p-6 rounded-b-3xl shadow-lg text-white select-none">
+      <header className="bg-[#FF7A00] p-6 rounded-b-3xl shadow-lg text-white select-none">
         <div className="flex items-center gap-3 mb-2">
-          <div className="bg-blue-400 rounded-xl p-2">
+          <div className="bg-[#FF9A3A] rounded-xl p-2">
             <Fuel strokeWidth={1.5} size={24} />
           </div>
           <h1 className="font-bold text-xl">JigiFuel</h1>
         </div>
         <p className="text-sm opacity-90">Carburant disponible près de vous</p>
 
-        <div className="mt-6 bg-blue-500 bg-opacity-50 rounded-xl p-4">
+        <div className="mt-6 bg-white/10 rounded-xl p-4">
           <p className="text-xs opacity-80">Bienvenue,</p>
           <p className="font-semibold text-lg">{session?.user?.name || 'Utilisateur Demo'}</p>
         </div>
@@ -154,12 +154,12 @@ export default function StationsPage() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-lg flex items-center gap-1 text-gray-900">
-              <MapPin size={20} className="text-blue-600" />
+              <MapPin size={20} className="text-[#FF7A00]" />
               Stations Proches
             </h2>
             <button
               onClick={() => router.push('/map')}
-              className="text-blue-600 font-medium hover:underline text-sm"
+              className="text-[#FF7A00] font-medium hover:underline text-sm"
               aria-label="Voir la carte"
             >
               Carte &rarr;
@@ -191,7 +191,7 @@ export default function StationsPage() {
               {stations.map((station) => (
                 <button
                   key={station.id}
-                  className="bg-white rounded-2xl shadow-sm p-5 text-left transition-all border border-gray-200 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  className="bg-white rounded-2xl shadow-sm p-5 text-left transition-all border border-gray-200 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-orange-200"
                   onClick={() => router.push(`/stations/${station.id}`)}
                   aria-label={`Station ${station.name}, ${station.status === 'open' ? 'ouverte' : 'fermée'}`}
                 >
