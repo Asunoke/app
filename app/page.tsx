@@ -14,14 +14,19 @@ import {
   Headphones,
   Rocket,
   Fuel,
-  Navigation,
-  RefreshCw,
   Mail,
   Globe,
   Target,
   Lightbulb,
   Handshake
 } from 'lucide-react';
+
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+};
+
+type NavigatorStandalone = Navigator & { standalone?: boolean };
 
 export default function AboutPage() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -33,19 +38,19 @@ export default function AboutPage() {
   });
   const [loading, setLoading] = useState(true);
   const [installReady, setInstallReady] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
     fetchStats();
-    const handler = (e: any) => {
+    const handler = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       setInstallReady(true);
     };
     window.addEventListener('beforeinstallprompt', handler);
 
     // Hide button if app already installed
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window as any).navigator.standalone;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as NavigatorStandalone).standalone === true;
     if (isStandalone) {
       setInstallReady(false);
     }
@@ -158,7 +163,7 @@ export default function AboutPage() {
                   className="bg-[#D4AF37] hover:bg-[#C1440E] text-[#0D1B2A] transition-all duration-300 hover:scale-102 shadow-lg hover:shadow-xl"
                 >
                   <Smartphone className="inline-block mr-2 h-4 w-4" />
-                  Télécharger l'app
+                  Télécharger l&apos;app
                 </Button>
               )}
             </div>

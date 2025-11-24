@@ -28,15 +28,15 @@ export async function POST(request: Request) {
     const { name, code, mapsCode, address, managerId, fuels } = body;
 
     const station = await prisma.station.create({
-      data: ({
+      data: {
         name,
         code,
         mapsCode,
         address,
         status: 'open',
         fuels: Array.isArray(fuels) ? fuels : [],
-        manager: managerId ? { connect: { id: managerId } } : undefined,
-      } as any),
+        ...(managerId ? { manager: { connect: { id: managerId } } } : {}),
+      },
       include: { manager: true },
     });
 

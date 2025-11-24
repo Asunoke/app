@@ -12,7 +12,7 @@ function generateTicketId(): string {
   return result;
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import MiniTabNav from "@/components/mini-tab-nav";
 import toast from "react-hot-toast";
 import type { User as PrismaUser } from "@prisma/client";

@@ -100,23 +100,29 @@ export async function PUT(
       return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
     }
 
-    const data: any = {
-      ...(typeof name === 'string' ? { name } : {}),
-      ...(typeof code === 'string' ? { code } : {}),
-      ...(typeof mapsCode === 'string' ? { mapsCode } : {}),
-      ...(typeof address === 'string' ? { address } : {}),
-      ...(typeof status === 'string' ? { status } : {}),
-      ...(Array.isArray(fuels) ? { fuels } : {}),
-      ...(managerId !== undefined
-        ? managerId
-          ? { manager: { connect: { id: managerId } } }
-          : { manager: { disconnect: true } }
-        : {}),
-    };
+    const updateData: {
+      name?: string;
+      code?: string;
+      mapsCode?: string;
+      address?: string;
+      status?: string;
+      fuels?: string[];
+      manager?: { connect: { id: string } } | { disconnect: true };
+    } = {};
+
+    if (typeof name === 'string') updateData.name = name;
+    if (typeof code === 'string') updateData.code = code;
+    if (typeof mapsCode === 'string') updateData.mapsCode = mapsCode;
+    if (typeof address === 'string') updateData.address = address;
+    if (typeof status === 'string') updateData.status = status;
+    if (Array.isArray(fuels)) updateData.fuels = fuels;
+    if (managerId !== undefined) {
+      updateData.manager = managerId ? { connect: { id: managerId } } : { disconnect: true };
+    }
 
     const station = await prisma.station.update({
       where: { id },
-      data,
+      data: updateData,
       include: { manager: true },
     });
 

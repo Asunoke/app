@@ -5,13 +5,23 @@ import { useRouter } from 'next/navigation';
 import { useSession } from '@/lib/auth-client';
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
+import type { User as PrismaUser } from '@prisma/client';
+
+type Html5QrcodeScannerCtor = new (
+  elementId: string,
+  config: { fps: number; qrbox: number }
+) => {
+  render: (
+    onSuccess: (decodedText: string) => void,
+    onError: () => void
+  ) => void;
+};
 
 export default function ScanTicketPage() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const scannerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
-  const [scanning, setScanning] = useState(false);
   const [lastResult, setLastResult] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,7 +33,7 @@ export default function ScanTicketPage() {
   useEffect(() => {
     if (!session) return;
     // Only ADMIN or MANAGER can access
-    const role = (session.user as any)?.role;
+    const role = (session.user as PrismaUser | undefined)?.role;
     if (role !== 'ADMIN' && role !== 'MANAGER') {
       router.push('/');
       return;
@@ -33,7 +43,7 @@ export default function ScanTicketPage() {
 
     const ensureLib = async () => {
       // Load html5-qrcode from CDN once
-      if (typeof window !== 'undefined' && !(window as any).Html5QrcodeScanner) {
+      if (typeof window !== 'undefined' && !(window as unknown as { Html5QrcodeScanner?: unknown }).Html5QrcodeScanner) {
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://unpkg.com/html5-qrcode@2.3.10/minified/html5-qrcode.min.js';
@@ -49,7 +59,7 @@ export default function ScanTicketPage() {
       try {
         await ensureLib();
         if (cancelled) return;
-        const Html5QrcodeScanner = (window as any).Html5QrcodeScanner;
+        const Html5QrcodeScanner = (window as unknown as { Html5QrcodeScanner?: unknown }).Html5QrcodeScanner as Html5QrcodeScannerCtor | undefined;
         if (!Html5QrcodeScanner) throw new Error('Scanner indisponible');
 
         const scanner = new Html5QrcodeScanner('qr-reader', { fps: 10, qrbox: 250 });
@@ -57,7 +67,6 @@ export default function ScanTicketPage() {
           async (decodedText: string) => {
             if (decodedText && decodedText !== lastResult) {
               setLastResult(decodedText);
-              setScanning(true);
               try {
                 const ticketId = decodedText.trim();
                 const res = await fetch('/api/tickets/validate', {
@@ -71,17 +80,18 @@ export default function ScanTicketPage() {
                 } else {
                   toast.error(j?.message || 'Validation échouée');
                 }
-              } catch (e: any) {
-                toast.error(e?.message || 'Erreur réseau');
+              } catch (e: unknown) {
+                const msg = e instanceof Error ? e.message : 'Erreur réseau';
+                toast.error(msg);
               } finally {
-                setScanning(false);
               }
             }
           },
           () => {}
         );
-      } catch (e: any) {
-        toast.error(e?.message || 'Impossible de démarrer le scanner');
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : 'Impossible de démarrer le scanner';
+        toast.error(msg);
       } finally {
         if (!cancelled) setLoading(false);
       }

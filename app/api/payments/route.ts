@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { ticketId, amount } = body as { ticketId: string; amount?: number };
+    const { ticketId, amount }: { ticketId: string; amount?: number } = body;
 
     const ticket = await prisma.ticket.findUnique({ where: { ticketId } });
     if (!ticket) {
@@ -23,21 +23,21 @@ export async function POST(request: Request) {
     }
 
     // If already paid, return success idempotently via ticket relation
-    const ticketWithPayment = await (prisma as any).ticket.findUnique({
+    const ticketWithPayment = await prisma.ticket.findUnique({
       where: { id: ticket.id },
       include: { payment: true },
     });
-    if ((ticketWithPayment as any)?.payment) {
+    if (ticketWithPayment?.payment) {
       if (ticket.status !== 'used') {
         await prisma.ticket.update({ where: { id: ticket.id }, data: { status: 'used' } });
       }
-      return NextResponse.json({ message: 'Paiement déjà confirmé', payment: (ticketWithPayment as any).payment });
+      return NextResponse.json({ message: 'Paiement déjà confirmé', payment: ticketWithPayment.payment });
     }
 
     // Create payment via nested write on ticket relation
     const updatedWithPayment = await prisma.ticket.update({
       where: { id: ticket.id },
-      data: ({
+      data: {
         payment: {
           create: {
             userId: session.user.id,
@@ -47,14 +47,14 @@ export async function POST(request: Request) {
             status: 'confirmed',
           },
         },
-      } as any),
-      include: ({ payment: true } as any),
+      },
+      include: { payment: true },
     });
 
     // Mark ticket as used immediately
     await prisma.ticket.update({ where: { id: ticket.id }, data: { status: 'used' } });
 
-    return NextResponse.json({ message: 'Paiement confirmé', payment: (updatedWithPayment as any).payment });
+    return NextResponse.json({ message: 'Paiement confirmé', payment: updatedWithPayment.payment });
   } catch (error) {
     console.error('Error confirming payment:', error);
     return NextResponse.json({ error: 'Failed to confirm payment' }, { status: 500 });
@@ -72,7 +72,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const payments = await (prisma as any).payment.findMany({
+    const payments = await prisma.payment.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
         ticket: true,
