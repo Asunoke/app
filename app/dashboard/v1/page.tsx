@@ -10,7 +10,6 @@ import {
   RefreshCw,
   Store,
   Ticket,
-  Navigation,
   MapPin,
   Circle,
   Zap,

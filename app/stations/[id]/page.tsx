@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Phone, Users, Clock, ArrowLeft, Fuel, Navigation } from 'lucide-react';
+import { MapPin, Phone, Users, Clock, ArrowLeft, Navigation } from 'lucide-react';
 import MiniTabNav from '@/components/mini-tab-nav';
 import toast from 'react-hot-toast';
 
@@ -63,8 +63,9 @@ export default function StationDetailsPage() {
       const ticket = await res.json();
       toast.success('Ticket réservé, passez au paiement');
       router.push(`/tickets/pay/${ticket.ticketId}`);
-    } catch (e: any) {
-      toast.error(e?.message || 'Réservation impossible');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Réservation impossible';
+      toast.error(msg);
     } finally {
       setPosting(false);
     }
@@ -154,7 +155,7 @@ export default function StationDetailsPage() {
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-lg p-4">
-                <div className="text-xs text-gray-500">File d'attente</div>
+                <div className="text-xs text-gray-500">File d&apos;attente</div>
                 <div className="mt-1 flex items-center gap-2 font-medium text-gray-900"><Users size={16} /> {station.peopleWaiting ?? '—'} pers.</div>
               </div>
               <div className="bg-gray-50 rounded-lg p-4">

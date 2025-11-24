@@ -28,11 +28,11 @@ export default function PaymentsDashboardPage() {
 
   useEffect(() => {
     if (!isPending) {
-      const role = (session?.user as any as PrismaUser)?.role;
+      const role = (session?.user as PrismaUser | undefined)?.role;
       if (!session) {
         router.push("/login");
       } else if (role !== "ADMIN") {
-        toast.error("Accès réservé à l'administrateur");
+        toast.error("Accès réservé à l’administrateur");
         router.push("/");
       }
     }
@@ -46,10 +46,11 @@ export default function PaymentsDashboardPage() {
     try {
       const res = await fetch("/api/payments");
       if (!res.ok) throw new Error("Erreur chargement paiements");
-      const data = await res.json();
-      setPayments(data as Payment[]);
-    } catch (e: any) {
-      toast.error(e?.message || "Impossible de charger les paiements");
+      const data = (await res.json()) as Payment[];
+      setPayments(data);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Impossible de charger les paiements";
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
