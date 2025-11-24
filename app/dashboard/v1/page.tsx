@@ -3,25 +3,16 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from '@/lib/auth-client';
-import dynamic from 'next/dynamic';
 import toast from 'react-hot-toast';
 import {
   Fuel,
   RefreshCw,
   Store,
-  Ticket,
   MapPin,
-  Circle,
   Zap,
   ArrowUpRight,
-  User,
-  Home,
-  DollarSign,
-  Clock,
 } from 'lucide-react';
 import MiniTabNav from '@/components/mini-tab-nav';
-
-const Map = dynamic(() => import('@/components/map'), { ssr: false });
 
 interface Station {
   id: string;
@@ -40,7 +31,7 @@ export default function StationsPage() {
   const { data: session, isPending } = useSession();
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(true);
-  const [lastUpdate, setLastUpdate] = useState(Date.now());
+  const [userTicketsCount, setUserTicketsCount] = useState(0);
 
   useEffect(() => {
     if (!isPending && !session) {
@@ -50,18 +41,25 @@ export default function StationsPage() {
 
   useEffect(() => {
     fetchStations();
-
-    const interval = setInterval(() => {
-      fetchStations();
-    }, 30000);
-
+    const interval = setInterval(fetchStations, 30000);
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const fetchMyTickets = async () => {
+      try {
+        const res = await fetch('/api/tickets');
+        if (!res.ok) return;
+        const data: unknown = await res.json();
+        if (Array.isArray(data)) setUserTicketsCount(data.length);
+      } catch {}
+    };
+    if (session) fetchMyTickets();
+  }, [session]);
+
   const fetchStations = async () => {
     try {
-      const timestamp = Date.now();
-      const response = await fetch(`/api/stations?t=${timestamp}`, {
+      const response = await fetch(`/api/stations`, {
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache',
@@ -69,10 +67,7 @@ export default function StationsPage() {
       });
       if (response.ok) {
         const data: Station[] = await response.json();
-
-        // Ne pas simuler : garder données telles quelles
         setStations(data);
-        setLastUpdate(timestamp);
       }
     } catch (error) {
       console.error('Error fetching stations:', error);
@@ -82,44 +77,6 @@ export default function StationsPage() {
     }
   };
 
-  const handleStartNavigation = (station: Station) => {
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      station.mapsCode,
-    )}`;
-
-    window.open(googleMapsUrl, '_blank');
-
-    toast.success(`Navigation vers ${station.name} lancée !`);
-  };
-
-  const handleReserveTicket = async (stationId: string) => {
-    if (!session) {
-      toast.error('Vous devez être connecté pour réserver un ticket');
-      router.push('/login');
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/tickets', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ stationId }),
-      });
-
-      if (response.ok) {
-        toast.success('Ticket réservé avec succès!');
-        router.push('/tickets');
-      } else {
-        const error = await response.json();
-        toast.error(error.message || 'Erreur lors de la réservation');
-      }
-    } catch (error) {
-      console.error('Error reserving ticket:', error);
-      toast.error('Erreur lors de la réservation du ticket');
-    }
-  };
 
   if (isPending || loading) {
     return (
@@ -135,8 +92,7 @@ export default function StationsPage() {
 
   // Nombre de stations ouvertes
   const openStationsCount = stations.filter((s) => s.status === 'open').length;
-  // Nombre de réservations - non fourni dans l'api, afficher 0 (ou intégrer selon besoin)
-  const activeReservations = 0;
+  const activeReservations = userTicketsCount;
 
   // Fonction pour couleurs des badges carburant (conserver si vous avez les données)
   const getFuelBadgeColor = (fuel: string) => {
@@ -187,10 +143,10 @@ export default function StationsPage() {
           <div className="bg-white rounded-xl shadow-md flex-1 p-5 flex flex-col gap-2">
             <div className="flex items-center gap-2 text-blue-500">
               <ArrowUpRight size={20} />
-              <span className="text-sm font-medium text-gray-600">Réservations</span>
+              <span className="text-sm font-medium text-gray-600">Mes tickets</span>
             </div>
             <p className="text-3xl font-bold">{activeReservations}</p>
-            <p className="text-xs text-gray-400">Actives</p>
+            <p className="text-xs text-gray-400">Total</p>
           </div>
         </div>
 

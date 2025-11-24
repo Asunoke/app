@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession, signOut } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
-import { Mail, LogOut } from 'lucide-react';
+import { Mail, LogOut, Shield, Settings, Users, Ticket } from 'lucide-react';
 import MiniTabNav from '@/components/mini-tab-nav';
 
 export default function ProfilePage() {
@@ -22,7 +22,11 @@ export default function ProfilePage() {
     router.push('/login');
   };
 
-  const user = session?.user as { name?: string | null; email?: string | null } | undefined;
+  const user = session?.user as { 
+    name?: string | null; 
+    email?: string | null; 
+    role?: string | null;
+  } | undefined;
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gray-50 pb-20">
@@ -52,6 +56,66 @@ export default function ProfilePage() {
             </div>
           </div>
         </section>
+
+        {/* Admin/Manager Quick Links */}
+        {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+          <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-4 py-3 text-xs font-semibold text-gray-500">
+              {user.role === 'ADMIN' ? 'ADMINISTRATION' : 'GESTION'}
+            </div>
+            <div className="divide-y divide-gray-200">
+              {user.role === 'ADMIN' && (
+                <>
+                  <div 
+                    className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push('/dashboard/admin')}
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+                      <Shield size={18} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-gray-900">Tableau de bord Admin</div>
+                      <div className="text-xs text-gray-500">Gestion complète du système</div>
+                    </div>
+                    <div className="text-gray-400">›</div>
+                  </div>
+                  <div 
+                    className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push('/dashboard/users')}
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                      <Users size={18} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-gray-900">Gestion des utilisateurs</div>
+                      <div className="text-xs text-gray-500">Voir et gérer les comptes</div>
+                    </div>
+                    <div className="text-gray-400">›</div>
+                  </div>
+                </>
+              )}
+              {(user?.role === 'ADMIN' || user?.role === 'MANAGER') && (
+                <div 
+                  className="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer"
+                  onClick={() => router.push(user.role === 'ADMIN' ? '/dashboard/stations' : '/dashboard')}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
+                    {user.role === 'ADMIN' ? <Settings size={18} /> : <Ticket size={18} />}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-gray-900">
+                      {user.role === 'ADMIN' ? 'Gestion des stations' : 'Gestion des tickets'}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {user.role === 'ADMIN' ? 'Gérer toutes les stations' : 'Valider les tickets'}
+                    </div>
+                  </div>
+                  <div className="text-gray-400">›</div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="px-4 py-3 text-xs font-semibold text-gray-500">GÉNÉRAL</div>

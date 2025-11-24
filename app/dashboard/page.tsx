@@ -371,11 +371,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div>
-                  <Button variant="secondary" onClick={() => router.push('/dashboard/scan')}>
-                    Scanner un ticket
-                  </Button>
-                </div>
+                {/* Scanner retiré */}
                 <Input
                   type="text"
                   label="ID du Ticket"

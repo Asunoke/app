@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import toast from 'react-hot-toast';
 import { Ticket as TicketIcon, CheckCircle2, XCircle, Clock } from 'lucide-react';
-import Image from 'next/image';
 import MiniTabNav from '@/components/mini-tab-nav';
 
 interface Ticket {
@@ -205,15 +204,7 @@ export default function TicketsPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {/* QR Code */}
-                      <div className="rounded-lg border border-gray-200 p-4 flex items-center justify-center bg-gray-50">
-                        <Image
-                          alt={`QR ${ticket.ticketId}`}
-                          width={112}
-                          height={112}
-                          src={`https://api.qrserver.com/v1/create-qr-code/?size=112x112&data=${encodeURIComponent(ticket.ticketId)}`}
-                        />
-                      </div>
+                      {/* QR supprimé */}
 
                       {/* Big ticket ID ribbon */}
                       <div className={`text-white text-center py-3 px-4 rounded-lg font-mono text-2xl font-bold ${tab==='active' ? 'bg-[#2563eb]' : 'bg-gray-400'}`}>
