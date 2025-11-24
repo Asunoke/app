@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import toast from 'react-hot-toast';
-import { Ticket as TicketIcon, CheckCircle2, XCircle, Clock, Home, MapPin, DollarSign, User } from 'lucide-react';
+import { Ticket as TicketIcon, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import MiniTabNav from '@/components/mini-tab-nav';
 
 interface Ticket {
@@ -122,9 +122,7 @@ export default function TicketsPage() {
   const activeTickets = tickets.filter(
     (t) => t.status === 'active' && !isExpired(t.expiresAt)
   );
-  const inactiveTickets = tickets.filter(
-    (t) => t.status !== 'active' || isExpired(t.expiresAt)
-  );
+  // const inactiveTickets = tickets.filter((t) => t.status !== 'active' || isExpired(t.expiresAt));
 
   const completedTickets = tickets.filter((t) => t.status === 'completed' || t.status === 'used');
   const cancelledTickets = tickets.filter((t) => t.status === 'cancelled');
@@ -186,7 +184,7 @@ export default function TicketsPage() {
                   <TicketIcon size={22} />
                 </div>
                 Aucune réservation
-                <div className="text-xs text-gray-400 mt-1">Vous n'avez pas de tickets {tab==='active'?'actifs':tab==='completed'?'complétés':'annulés'}</div>
+                <div className="text-xs text-gray-400 mt-1">Vous n&apos;avez pas de tickets {tab==='active'?'actifs':tab==='completed'?'complétés':'annulés'}</div>
                 {tab === 'active' && (
                   <div className="mt-6">
                     <Button onClick={() => router.push('/')} variant="primary">Réserver un ticket</Button>

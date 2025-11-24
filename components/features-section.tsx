@@ -10,7 +10,7 @@ const features = [
   {
     icon: Ticket,
     title: "Réservez votre ticket en ligne",
-    description: "Réservez votre place dans la file d'attente directement depuis l'application.",
+    description: "Réservez votre place dans la file d&apos;attente directement depuis l&apos;application.",
   },
   {
     icon: CreditCard,
@@ -33,7 +33,7 @@ export function FeaturesSection() {
             Pourquoi choisir <span className="text-primary">JigiFuel</span> ?
           </h2>
           <p className="text-lg text-muted-foreground text-pretty max-w-2xl mx-auto">
-            Une solution complète pour simplifier votre expérience d'achat de carburant à Bamako.
+            Une solution complète pour simplifier votre expérience d&apos;achat de carburant à Bamako.
           </p>
         </div>
 

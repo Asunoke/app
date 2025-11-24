@@ -49,8 +49,9 @@ export default function TicketPaymentPage() {
       }
       toast.success("Paiement confirmé. Ticket validé.");
       router.push("/tickets");
-    } catch (e: any) {
-      toast.error(e?.message || "Impossible de confirmer le paiement");
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Impossible de confirmer le paiement";
+      toast.error(msg);
     }
   };
 
