@@ -4,6 +4,9 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
   try {
     const stations = await prisma.station.findMany({
+      include: {
+        manager: true,
+      },
       orderBy: {
         name: 'asc',
       },
@@ -22,18 +25,24 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, code, mapsCode, address, managerId } = body;
+    const { name, code, mapsCode, address, managerId, fuels } = body;
 
     const station = await prisma.station.create({
-      data: {
+      data: ({
         name,
         code,
         mapsCode,
         address,
-        managerId,
         status: 'open',
-      },
+        fuels: Array.isArray(fuels) ? fuels : [],
+        manager: managerId ? { connect: { id: managerId } } : undefined,
+      } as any),
+      include: { manager: true },
     });
+
+    if (managerId) {
+      await prisma.user.update({ where: { id: managerId }, data: { role: 'MANAGER' } });
+    }
 
     return NextResponse.json(station);
   } catch (error) {

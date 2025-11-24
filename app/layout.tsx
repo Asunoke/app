@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/navbar";
+import NavbarWrapper from "@/components/navbar-wrapper";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
@@ -157,7 +157,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased font-sans">
-        <Navbar />
+        <NavbarWrapper />
         <main className="min-h-screen">
           {children}
         </main>

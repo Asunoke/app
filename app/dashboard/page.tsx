@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from '@/lib/auth-client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import MiniTabNav from '@/components/mini-tab-nav';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import toast from 'react-hot-toast';
@@ -25,6 +26,7 @@ interface Station {
   address?: string;
   status: string;
   manager?: User;
+  fuels?: string[];
 }
 
 export default function DashboardPage() {
@@ -41,6 +43,7 @@ export default function DashboardPage() {
     mapsCode: '',
     address: '',
     managerId: '',
+    fuels: [] as string[],
   });
   const [managers, setManagers] = useState<User[]>([]);
   const [editingStation, setEditingStation] = useState<Station | null>(null);
@@ -103,6 +106,43 @@ export default function DashboardPage() {
     }
   };
 
+  const updateUserRole = async (userId: string, role: 'ADMIN' | 'MANAGER' | 'USER') => {
+    try {
+      const res = await fetch(`/api/users/${userId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        toast.error(j?.error || 'Impossible de mettre à jour le rôle');
+        return;
+      }
+      toast.success('Rôle mis à jour');
+      fetchUsers();
+    } catch (e) {
+      console.error(e);
+      toast.error('Erreur côté client');
+    }
+  };
+
+  const deleteUser = async (userId: string) => {
+    if (!confirm('Supprimer cet utilisateur ?')) return;
+    try {
+      const res = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        toast.error(j?.error || 'Suppression impossible');
+        return;
+      }
+      toast.success('Utilisateur supprimé');
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+    } catch (e) {
+      console.error(e);
+      toast.error('Erreur côté client');
+    }
+  };
+
 
   const handleValidateTicket = async (action: 'validate' | 'reject') => {
     if (!ticketId.trim()) {
@@ -142,6 +182,7 @@ export default function DashboardPage() {
       mapsCode: station.mapsCode,
       address: station.address || '',
       managerId: station.manager?.id || '',
+      fuels: station.fuels || [],
     });
     setShowEditStation(true);
     setShowCreateStation(false);
@@ -171,6 +212,7 @@ export default function DashboardPage() {
           mapsCode: '',
           address: '',
           managerId: '',
+          fuels: [],
         });
         fetchStations();
       } else {
@@ -256,6 +298,7 @@ export default function DashboardPage() {
           mapsCode: '',
           address: '',
           managerId: '',
+          fuels: [],
         });
         fetchStations();
       } else {
@@ -328,6 +371,11 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
+                <div>
+                  <Button variant="secondary" onClick={() => router.push('/dashboard/scan')}>
+                    Scanner un ticket
+                  </Button>
+                </div>
                 <Input
                   type="text"
                   label="ID du Ticket"
@@ -432,6 +480,41 @@ export default function DashboardPage() {
                         ))}
                       </select>
                     </div>
+                    <div>
+                      <label className="block text-sm font-medium text-[#1A1A1A] mb-1">Carburants disponibles</label>
+                      <div className="flex items-center gap-4">
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={newStation.fuels.includes('Essence')}
+                            onChange={(e) => {
+                              setNewStation({
+                                ...newStation,
+                                fuels: e.target.checked
+                                  ? Array.from(new Set([...(newStation.fuels || []), 'Essence']))
+                                  : (newStation.fuels || []).filter((f) => f !== 'Essence'),
+                              });
+                            }}
+                          />
+                          Essence
+                        </label>
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={newStation.fuels.includes('Diesel')}
+                            onChange={(e) => {
+                              setNewStation({
+                                ...newStation,
+                                fuels: e.target.checked
+                                  ? Array.from(new Set([...(newStation.fuels || []), 'Diesel']))
+                                  : (newStation.fuels || []).filter((f) => f !== 'Diesel'),
+                              });
+                            }}
+                          />
+                          Diesel
+                        </label>
+                      </div>
+                    </div>
                     <div className="flex gap-2">
                       <Button type="submit" variant="primary" className="flex-1">
                         Mettre à jour
@@ -535,6 +618,41 @@ export default function DashboardPage() {
                       <p className="text-xs text-[#6B7280] mt-1">
                         {managers.length} manager(s) disponible(s)
                       </p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-[#1A1A1A] mb-1">Carburants disponibles</label>
+                      <div className="flex items-center gap-4">
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={newStation.fuels.includes('Essence')}
+                            onChange={(e) => {
+                              setNewStation({
+                                ...newStation,
+                                fuels: e.target.checked
+                                  ? Array.from(new Set([...(newStation.fuels || []), 'Essence']))
+                                  : (newStation.fuels || []).filter((f) => f !== 'Essence'),
+                              });
+                            }}
+                          />
+                          Essence
+                        </label>
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={newStation.fuels.includes('Diesel')}
+                            onChange={(e) => {
+                              setNewStation({
+                                ...newStation,
+                                fuels: e.target.checked
+                                  ? Array.from(new Set([...(newStation.fuels || []), 'Diesel']))
+                                  : (newStation.fuels || []).filter((f) => f !== 'Diesel'),
+                              });
+                            }}
+                          />
+                          Diesel
+                        </label>
+                      </div>
                     </div>
                     <Button type="submit" variant="primary" className="w-full">
                       Créer la Station
@@ -701,6 +819,7 @@ export default function DashboardPage() {
                       <th className="text-left py-3 px-4">Email</th>
                       <th className="text-left py-3 px-4">Nom</th>
                       <th className="text-left py-3 px-4">Rôle</th>
+                      <th className="text-left py-3 px-4">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -709,17 +828,23 @@ export default function DashboardPage() {
                         <td className="py-3 px-4">{user.email}</td>
                         <td className="py-3 px-4">{user.name || '-'}</td>
                         <td className="py-3 px-4">
-                          <Badge
-                            variant={
-                              user.role === 'ADMIN'
-                                ? 'error'
-                                : user.role === 'MANAGER'
-                                ? 'warning'
-                                : 'default'
-                            }
+                          <select
+                            className="border border-gray-300 rounded-md px-2 py-1 text-sm"
+                            value={user.role}
+                            onChange={(e) => updateUserRole(user.id, e.target.value as 'ADMIN' | 'MANAGER' | 'USER')}
                           >
-                            {user.role}
-                          </Badge>
+                            <option value="USER">USER</option>
+                            <option value="MANAGER">MANAGER</option>
+                            <option value="ADMIN">ADMIN</option>
+                          </select>
+                        </td>
+                        <td className="py-3 px-4">
+                          <button
+                            className="text-red-600 hover:text-red-700 text-sm"
+                            onClick={() => deleteUser(user.id)}
+                          >
+                            Supprimer
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -730,6 +855,9 @@ export default function DashboardPage() {
           </Card>
         )}
       </div>
+
+      <MiniTabNav />
+      <div className="h-16" />
     </div>
   );
 }

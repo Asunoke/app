@@ -66,7 +66,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { name, code, mapsCode, address, status, managerId } = body;
+    const { name, code, mapsCode, address, status, managerId, fuels } = body;
 
     // Si l'utilisateur est un manager, il ne peut modifier que le statut de sa propre station
     if (user.role === 'MANAGER') {
@@ -100,27 +100,29 @@ export async function PUT(
       return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
     }
 
+    const data: any = {
+      ...(typeof name === 'string' ? { name } : {}),
+      ...(typeof code === 'string' ? { code } : {}),
+      ...(typeof mapsCode === 'string' ? { mapsCode } : {}),
+      ...(typeof address === 'string' ? { address } : {}),
+      ...(typeof status === 'string' ? { status } : {}),
+      ...(Array.isArray(fuels) ? { fuels } : {}),
+      ...(managerId !== undefined
+        ? managerId
+          ? { manager: { connect: { id: managerId } } }
+          : { manager: { disconnect: true } }
+        : {}),
+    };
+
     const station = await prisma.station.update({
       where: { id },
-      data: {
-        name,
-        code,
-        mapsCode,
-        address,
-        status,
-        managerId: managerId || null,
-      },
-      include: {
-        manager: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-          },
-        },
-      },
+      data,
+      include: { manager: true },
     });
+
+    if (managerId) {
+      await prisma.user.update({ where: { id: managerId }, data: { role: 'MANAGER' } });
+    }
 
     return NextResponse.json(station);
   } catch (error) {

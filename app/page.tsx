@@ -32,9 +32,27 @@ export default function AboutPage() {
     satisfaction: 99
   });
   const [loading, setLoading] = useState(true);
+  const [installReady, setInstallReady] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
     fetchStats();
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setInstallReady(true);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+
+    // Hide button if app already installed
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window as any).navigator.standalone;
+    if (isStandalone) {
+      setInstallReady(false);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+    };
   }, []);
 
   const fetchStats = async () => {
@@ -127,7 +145,22 @@ export default function AboutPage() {
                   Commencer Maintenant
                 </Button>
               </Link>
-              
+              {installReady && (
+                <Button
+                  onClick={async () => {
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();
+                    await deferredPrompt.userChoice;
+                    setInstallReady(false);
+                    setDeferredPrompt(null);
+                  }}
+                  variant="secondary"
+                  className="bg-[#D4AF37] hover:bg-[#C1440E] text-[#0D1B2A] transition-all duration-300 hover:scale-102 shadow-lg hover:shadow-xl"
+                >
+                  <Smartphone className="inline-block mr-2 h-4 w-4" />
+                  Télécharger l'app
+                </Button>
+              )}
             </div>
           </div>
         </div>

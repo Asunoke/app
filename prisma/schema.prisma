@@ -20,6 +20,7 @@ model User {
   station       Station?  @relation("ManagerStation")
   sessions      Session[]
   accounts      Account[]
+  payments      Payment[]
 }
 
 model Session {
@@ -61,8 +62,10 @@ model Station {
   manager   User?    @relation("ManagerStation", fields: [managerId], references: [id])
   managerId String?  @unique
   tickets   Ticket[]
+  fuels     String[] @default([])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  payments  Payment[]
 }
 
 model Ticket {
@@ -76,10 +79,25 @@ model Ticket {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  payment    Payment?
 }
 
 enum Role {
   USER
   MANAGER
   ADMIN
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId  String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  station   Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  stationId String
+  method    String   @default("ORANGE_MONEY")
+  amount    Int?
+  status    String   @default("confirmed")
+  createdAt DateTime @default(now())
 }
